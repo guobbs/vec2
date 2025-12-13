@@ -2,5 +2,11 @@
 name = "vec2"
 version = "0.1.0"
 edition = "2024"
+authors = ["GUO <guobbs@live.com> <>"]
+description = "A 2D vector-like data structure that allocates memory in chunks."
+license = "MIT"
+repository = "https://github.com/guobbs/vec2.git"
+keywords = ["vec2", "vector"]
+readme = "README.md"
 
 [dependencies]
