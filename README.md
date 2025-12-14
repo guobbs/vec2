@@ -5,7 +5,7 @@ Using the standard library’s `std::vec::Vec`, when there are many elements it 
 
 # Examples
 
-```Rust
+```rust
 use std::num::NonZeroU32;
 let mut vec2 = super::Vec2::new(NonZeroU32::new(3).unwrap());
 vec2.push(1);
