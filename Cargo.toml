@@ -1,5 +1,5 @@
 [package]
-name = "vec2"
+name = "vec_chunked"
 version = "0.1.0"
 edition = "2021"
 authors = ["GUO <guobbs@live.com> <>"]
@@ -8,5 +8,9 @@ license = "MIT"
 repository = "https://github.com/guobbs/vec2.git"
 keywords = ["vec2", "vector"]
 readme = "README.md"
+
+[lib]
+name = "vec2"
+path = "src/lib.rs"
 
 [dependencies]
