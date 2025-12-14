@@ -24,6 +24,8 @@ pub struct IterMut<'a, T> {
 
 impl<'a, T> Iterator for Iter<'a, T> {
     type Item = &'a T;
+
+    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(ref mut row_iter) = self.iter_row {
             let value = row_iter.next();
@@ -46,6 +48,8 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
 impl<'a, T> Iterator for IterMut<'a, T> {
     type Item = &'a mut T;
+
+    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(ref mut row_iter) = self.iter_row {
             let value = row_iter.next();
