@@ -13,13 +13,11 @@ pub struct Vec2<T> {
 }
 
 pub struct Iter<'a, T> {
-    iter_row: Option<std::slice::Iter<'a, T>>,
-    iter_rows: std::slice::Iter<'a, Vec<T>>,
+    inner: std::iter::Flatten<std::slice::Iter<'a, Vec<T>>>,
 }
 
 pub struct IterMut<'a, T> {
-    iter_row: Option<std::slice::IterMut<'a, T>>,
-    iter_rows: std::slice::IterMut<'a, Vec<T>>,
+    inner: std::iter::Flatten<std::slice::IterMut<'a, Vec<T>>>,
 }
 
 impl<'a, T> Iterator for Iter<'a, T> {
@@ -27,22 +25,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        if let Some(ref mut row_iter) = self.iter_row {
-            let value = row_iter.next();
-            if value.is_some() {
-                return value;
-            }
-        }
-
-        if let Some(arr) = self.iter_rows.next() {
-            self.iter_row = Some(arr.iter());
-        }
-
-        if let Some(ref mut row_iter) = self.iter_row {
-            return row_iter.next();
-        }
-
-        None
+        self.inner.next()
     }
 }
 
@@ -51,22 +34,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        if let Some(ref mut row_iter) = self.iter_row {
-            let value = row_iter.next();
-            if value.is_some() {
-                return value;
-            }
-        }
-
-        if let Some(arr) = self.iter_rows.next() {
-            self.iter_row = Some(arr.iter_mut());
-        }
-
-        if let Some(ref mut row_iter) = self.iter_row {
-            return row_iter.next();
-        }
-
-        None
+        self.inner.next()
     }
 }
 
@@ -170,8 +138,7 @@ impl<T> Vec2<T> {
     #[inline]
     pub fn iter(&self) -> Iter<'_, T> {
         Iter {
-            iter_row: None,
-            iter_rows: self.data.iter(),
+            inner: self.data.iter().flatten(),
         }
     }
 
@@ -179,8 +146,7 @@ impl<T> Vec2<T> {
     #[inline]
     pub fn iter_mut(&mut self) -> IterMut<'_, T> {
         IterMut {
-            iter_row: None,
-            iter_rows: self.data.iter_mut(),
+            inner: self.data.iter_mut().flatten(),
         }
     }
 }
